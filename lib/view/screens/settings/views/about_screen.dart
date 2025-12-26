@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:niche_line_messaging/core/app_routes/app_routes.dart';
 import 'package:niche_line_messaging/utils/app_images/app_images.dart';
 import 'package:niche_line_messaging/view/components/custom_image/custom_image.dart';
+import 'package:niche_line_messaging/view/components/custom_royel_appbar/custom_royel_appbar.dart';
+import 'package:niche_line_messaging/view/components/custom_text/custom_text.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -10,19 +13,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0E1527),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2DD4BF)),
-          onPressed: () => Get.back(),
-        ),
-        title: const Text(
-          'About',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-        ),
-        centerTitle: true,
-      ),
+      appBar: CustomRoyelAppbar(leftIcon: true,titleName: "About"),
       body: Stack(
         children: [
           // Background gradient
@@ -122,14 +113,7 @@ class AboutScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Legal & Documents',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
+                      CustomText(text: "Legal & Documents",fontSize: 20.sp, fontWeight: FontWeight.w600,),
                       SizedBox(height: 20.h),
 
                       // Privacy Policy
@@ -138,20 +122,13 @@ class AboutScreen extends StatelessWidget {
                         title: 'Privacy Policy',
                         subtitle: 'Learn how we protect your data',
                         onTap: () {
-                          Get.snackbar(
-                            'Privacy Policy',
-                            'Opening privacy policy...',
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: const Color(0xFF2DD4BF),
-                            colorText: Colors.white,
-                            duration: const Duration(seconds: 1),
-                          );
+                         Get.toNamed(AppRoutes.privacyScreen);
                         },
                       ),
 
                       Divider(color: Colors.white.withOpacity(0.1), height: 1),
 
-                      // Security Whitepaper
+                      // Security WhitePaper
                       _buildDocumentOption(
                         icon: Icons.security_outlined,
                         title: 'Security Whitepaper',
@@ -176,14 +153,7 @@ class AboutScreen extends StatelessWidget {
                         title: 'Terms of Service',
                         subtitle: 'Read our terms and conditions',
                         onTap: () {
-                          Get.snackbar(
-                            'Terms of Service',
-                            'Opening terms of service...',
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: const Color(0xFF2DD4BF),
-                            colorText: Colors.white,
-                            duration: const Duration(seconds: 1),
-                          );
+                          Get.toNamed(AppRoutes.termsServicesScreen);
                         },
                       ),
                     ],

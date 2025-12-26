@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:niche_line_messaging/utils/app_colors/app_colors.dart';
+import 'package:niche_line_messaging/view/components/custom_loader/custom_loader.dart';
+import 'package:niche_line_messaging/view/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:niche_line_messaging/view/components/custom_text/custom_text.dart';
 import 'package:niche_line_messaging/view/screens/home/controller/new_chat_controller.dart';
 import 'package:niche_line_messaging/view/screens/home/views/create_group_chat_screen.dart';
@@ -26,9 +28,9 @@ class _NewChatScreenState extends State<NewChatScreen> {
         children: [
           // Search Field
           _buildSearchField(),
-
           SizedBox(height: 16.h),
-
+          _buildCreateGroup(),
+          SizedBox(height: 16.h),
           // Recipients List
           Expanded(
             child: Obx(() {
@@ -45,31 +47,13 @@ class _NewChatScreenState extends State<NewChatScreen> {
           ),
         ],
       ),
-      floatingActionButton: _buildFloatingActionButton(),
+
     );
   }
 
   // ==================== AppBar ====================
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: AppColors.primary,
-      elevation: 0,
-      leading: IconButton(
-        onPressed: () => Get.back(),
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: const Color(0xFF2DD4BF),
-          size: 20.sp,
-        ),
-      ),
-      title: CustomText(
-        text: 'New Chat',
-        fontSize: 18.sp,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-      ),
-      centerTitle: true,
-    );
+    return CustomRoyelAppbar(leftIcon: true,titleName: "New Chat");
   }
 
   // ==================== Search Field ====================
@@ -134,6 +118,42 @@ class _NewChatScreenState extends State<NewChatScreen> {
       ),
     );
   }
+  // ==================== Create Group ====================
+  Widget _buildCreateGroup() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      child: InkWell(
+        onTap: () {
+          Get.to(() => CreateGroupScreen());
+        },
+        child: Container(
+          height: 56.h,
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(
+              color: AppColors.white,
+              width: 1.5,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.group_add, color: AppColors.white, size: 28),
+              SizedBox(width: 12.w),
+              CustomText(
+                text: "New Group",
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.white,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 
   // ==================== Recipients List ====================
   Widget _buildRecipientsList() {
@@ -236,11 +256,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   // ==================== Loading State ====================
   Widget _buildLoadingState() {
-    return Center(
-      child: CircularProgressIndicator(
-        color: const Color(0xFF2DD4BF),
-      ),
-    );
+    return Center(child: CustomLoader());
   }
 
   // ==================== Empty State ====================
@@ -277,29 +293,6 @@ class _NewChatScreenState extends State<NewChatScreen> {
     );
   }
 
-  // ==================== Floating Action Button ====================
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      onPressed: () {
-        // TODO: Navigate to create group screen
-        Get.to(()=>CreateGroupScreen());
-        debugPrint('Create group tapped');
-        Get.snackbar(
-          'Create Group',
-          'Group creation feature coming soon',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: const Color(0xFF2DD4BF),
-          colorText: AppColors.primary,
-        );
-      },
-      backgroundColor: const Color(0xFF2DD4BF),
-      child: Icon(
-        Icons.group_add,
-        color: AppColors.primary,
-        size: 28.sp,
-      ),
-    );
-  }
 }
 
 // ==================== Recipient Model ====================

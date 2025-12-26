@@ -12,6 +12,7 @@ import '../../view/screens/authentication/views/auth_screen/login_screen/login_s
 import '../../view/screens/authentication/views/auth_screen/set_new_password/set_new_password.dart';
 import '../../view/screens/authentication/views/auth_screen/sign_up_screen/sign_up_screen.dart';
 import '../../view/screens/settings/views/privacy_security_screen.dart';
+import '../../view/screens/settings/views/terms_services_screen‎.dart';
 
 class AppRoutes {
   // ==================== Route Names ====================
@@ -28,6 +29,7 @@ class AppRoutes {
   static const String settingScreen = "/SettingScreen";
   static const String forgotScreen = "/ForgotScreen";
   static const String privacyScreen = "/PrivacyScreen";
+  static const String termsServicesScreen = "/TermsServicesScreen";
   static const String setNewPassword = "/SetNewPassword";
 
   // ==================== Pages List ====================
@@ -37,7 +39,8 @@ class AppRoutes {
     GetPage(name: loginScreen, page: () => LoginScreen()),
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
     GetPage(name: forgotScreen, page: () => ForgotScreen()),
-    GetPage(name: forgotScreen, page: () => PrivacyScreen()),
+    GetPage(name: privacyScreen, page: () => PrivacyScreen()),
+    GetPage(name: termsServicesScreen, page: () => TermsServicesScreen()),
     GetPage(name: setNewPassword, page: () => SetNewPassword()),
     GetPage(name: verifyPicCodeScreen, page: () => TwoFactorAuthScreen(), binding: BindingsBuilder(() {Get.lazyPut(() => AuthController());}),),
     GetPage(name: recoverySetupScreen, page: () => RecoveryKeySetupScreenOne(), binding: BindingsBuilder(() {Get.lazyPut(() => AuthController());}),),

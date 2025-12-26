@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:niche_line_messaging/view/components/custom_loader/custom_loader.dart';
+import 'package:niche_line_messaging/view/components/custom_royel_appbar/custom_royel_appbar.dart';
 import 'package:niche_line_messaging/view/screens/home/controller/create_group_controller.dart';
 import 'package:niche_line_messaging/view/screens/home/views/new_chat_screen.dart'; // For RecipientModel
 
@@ -13,23 +15,7 @@ class CreateGroupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0E1527),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back, color: const Color(0xFF2DD4BF)),
-        ),
-        title: Text(
-          'New Group',
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
+      appBar: CustomRoyelAppbar(leftIcon: true, titleName: 'New Group',),
       body: Column(
         children: [
           // ================== Header: Group Info ==================
@@ -159,9 +145,8 @@ class CreateGroupScreen extends StatelessWidget {
           Expanded(
             child: Obx(() {
               if (controller.isLoading.value)
-                return Center(
-                  child: CircularProgressIndicator(color: Color(0xFF2DD4BF)),
-                );
+                return Center(child: CustomLoader());
+
               return ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 itemCount: controller.filteredRecipients.length,

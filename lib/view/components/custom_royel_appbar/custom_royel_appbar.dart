@@ -49,7 +49,7 @@ class CustomRoyelAppbar extends StatelessWidget implements PreferredSizeWidget {
         leading: leftIcon == false ? BackButton() : null,
         title: CustomText(
           text: titleName ?? "",
-          fontSize: 24.w,
+          fontSize: 20.w,
           fontWeight: FontWeight.w600,
           color:color ?? AppColors.white,
         ));

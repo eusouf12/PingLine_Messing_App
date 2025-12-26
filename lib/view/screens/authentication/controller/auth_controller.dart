@@ -277,18 +277,22 @@ class AuthController extends GetxController {
   }
   ///======================LOGIN CONTROLLER=====================
 
-  Rx<TextEditingController> loginEmailController = TextEditingController().obs;
-  Rx<TextEditingController> loginPasswordController = TextEditingController().obs;
-  RxBool loginLoading = true.obs;
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();RxBool loginLoading = true.obs;
   RxBool loginUserLoading = false.obs;
   void toggleTab(bool isLogin) => loginLoading.value = isLogin;
 
+  @override
+  void onInit() {
+    super.onInit();
+    loginEmailController.text = "riyajuddeeneusoufoffice@gmail.com";
+    loginPasswordController.text = "AAa123#";
+  }
   Future<void> loginUser() async {
     loginUserLoading.value = true;
-
     Map<String, String> body = {
-      "email": loginEmailController.value.text.trim(),
-      "password": loginPasswordController.value.text.trim(),
+      "email": loginEmailController.text.trim(),
+      "password": loginPasswordController.text.trim(),
     };
 
     try {

@@ -11,7 +11,7 @@ import '../controller/profile_controller.dart';
 
 class PrivacyScreen extends StatelessWidget {
   PrivacyScreen({super.key});
-  final ProfileController profileController = Get.find<ProfileController>();
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +56,7 @@ class PrivacyScreen extends StatelessWidget {
               );
 
             case Status.completed:
-              // final htmlContent = profileController.privacyModel.value.privacyPolicy?.trim() ?? '';
-              final htmlContent =  '';
+               final htmlContent = profileController.privacyModel.value.privacyPolicy?.trim() ?? '';
               if (htmlContent.isEmpty) {
                 return Center(
                   child: Text(

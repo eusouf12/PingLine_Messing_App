@@ -18,24 +18,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0E1527), // Deep background
+      backgroundColor: const Color(0xFF0E1527),
       body: SafeArea(
         child: Column(
           children: [
             // ================== Custom App Bar ==================
             _buildCustomAppBar(context),
-
-            // ================== Quick Actions & Active Users ==================
-            // এখানে Create Group বাটনটি হাইলাইট করা হয়েছে
-            _buildQuickActionsRow(context),
-
             SizedBox(height: 20.h),
-
             // ================== Search & Filter ==================
             _buildSearchField(context),
-
             SizedBox(height: 10.h),
-
             // ================== Chat List ==================
             Expanded(
               child: Container(
@@ -77,9 +69,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Widgets
-  // ---------------------------------------------------------------------------
+  //================== Widget Property ====================
 
   Widget _buildCustomAppBar(BuildContext context) {
     return Padding(
@@ -95,12 +85,6 @@ class HomeScreen extends StatelessWidget {
                 width: 35.h,
               ),
               SizedBox(width: 10.w),
-              /* CustomText(
-                text: 'NichLine',
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ), */
             ],
           ),
           GestureDetector(
@@ -118,123 +102,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionsRow(BuildContext context) {
-    return SizedBox(
-      height: 100.h,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(left: 20.w),
-        children: [
-          // 1. Create Group Shortcut (Highlight)
-          _buildQuickActionItem(
-            context,
-            icon: Icons.group_add,
-            label: 'New Group',
-            isSpecial: true,
-            onTap: () => Get.to(() => CreateGroupScreen()),
-          ),
-
-          // 2. Active Users (Demo Data)
-          _buildActiveUserItem('Emma', 'https://i.pravatar.cc/150?img=64'),
-          _buildActiveUserItem('Alex', 'https://i.pravatar.cc/150?img=1'),
-          _buildActiveUserItem('Sarah', 'https://i.pravatar.cc/150?img=5'),
-          _buildActiveUserItem('Mike', 'https://i.pravatar.cc/150?img=12'),
-          _buildActiveUserItem('Lisa', 'https://i.pravatar.cc/150?img=9'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuickActionItem(
-    BuildContext context, {
-    required IconData icon,
-    required String label,
-    required bool isSpecial,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.only(right: 16.w),
-        child: Column(
-          children: [
-            Container(
-              height: 60.h,
-              width: 60.h,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isSpecial
-                    ? const Color(0xFF2DD4BF).withOpacity(0.2)
-                    : Colors.transparent,
-                border: Border.all(
-                  color: const Color(0xFF2DD4BF),
-                  width: 2, // Dashed effect could be added here
-                ),
-              ),
-              child: Icon(icon, color: const Color(0xFF2DD4BF), size: 28.sp),
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              label,
-              style: TextStyle(
-                color: isSpecial ? const Color(0xFF2DD4BF) : Colors.white70,
-                fontSize: 12.sp,
-                fontWeight: isSpecial ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildActiveUserItem(String name, String imgUrl) {
-    return Padding(
-      padding: EdgeInsets.only(right: 16.w),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 60.h,
-                width: 60.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.transparent, width: 2),
-                  image: DecorationImage(
-                    image: NetworkImage(imgUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 2,
-                bottom: 2,
-                child: Container(
-                  height: 14.h,
-                  width: 14.h,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFF0E1527),
-                      width: 2,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            name,
-            style: TextStyle(color: Colors.white70, fontSize: 12.sp),
           ),
         ],
       ),

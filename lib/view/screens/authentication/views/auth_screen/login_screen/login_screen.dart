@@ -137,7 +137,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
-                        textEditingController: authController.loginEmailController.value,
+                        textEditingController: authController.loginEmailController,
                         hintText: AppStrings.enterYourEmail,
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                         prefixIcon: const Icon(
@@ -160,7 +160,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(
-                        textEditingController: authController.loginPasswordController.value,
+                        textEditingController: authController.loginPasswordController,
                         hintText: AppStrings.enterYourPassword,
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                         prefixIcon: const Icon(

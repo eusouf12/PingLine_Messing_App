@@ -12,6 +12,7 @@ import '../../../../../utils/ToastMsg/toast_message.dart';
 import '../../../../../utils/app_const/app_const.dart';
 import '../../../../../utils/app_strings/app_strings.dart';
 import '../model/privacy_model.dart';
+import '../model/terms_model.dart';
 
 
 
@@ -224,6 +225,41 @@ class ProfileController extends GetxController {
     }
   }
 
+  //========== Get Terms & Conditions controller ==========
+  final rxTermsStatus = Status.loading.obs;
+  void setTermsStatus(Status value) {
+    rxTermsStatus.value = value;
+  }
+  Rx<TermsModel> termsModel = TermsModel().obs;
+  Future<void> getTermsConditions() async {
+    var response = await ApiClient.getData(ApiUrl.termsCondition);
+    if (response.statusCode == 200) {
+      try {
+        rxTermsStatus.value = Status.completed;
+        var data = response.body["data"];
+        termsModel.value = TermsModel.fromJson(data);
+        refresh();
+      } catch (e) {
+        // Catch parsing issues
+        setTermsStatus(Status.error);
+        debugPrint("Parsing error: $e");
+        refresh();
+      }
+    }else if(response.statusCode == 404){
+      rxTermsStatus.value =Status.error;
+      //  setAboutStatus(Status.error);
+      termsModel.value = TermsModel();
+    }
+    else {
+      if (response.statusText == ApiClient.somethingWentWrong) {
+        setTermsStatus(Status.internetError);
+      } else {
+        setTermsStatus(Status.error);
+      }
+      // ApiChecker.checkApi(response);
+      refresh();
+    }
+  }
 
 
   //==================== Get Privacy Policy =================
@@ -235,7 +271,7 @@ class ProfileController extends GetxController {
   Rx<PrivacyModel> privacyModel = PrivacyModel().obs;
   Future<void> getPrivacyPolicy() async {
     try {
-      setPrivacyPolicyStatus(Status.loading); // Assuming you have a general Status for requests
+      setPrivacyPolicyStatus(Status.loading);
 
       final userId = await SharePrefsHelper.getString(AppConstants.userId);
 
@@ -260,7 +296,6 @@ class ProfileController extends GetxController {
       debugPrint("PrivacyPolicy parsing error: $e");
     }
   }
-
 
 }
 
