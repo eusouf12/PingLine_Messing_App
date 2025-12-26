@@ -14,9 +14,9 @@ class ApiUrl {
   // ================Setting Profile ===================
   static const String termsCondition = "/api/v1/setting/find_by_terms_conditions";
   static const String privacyPolicy = "/api/v1/setting/find_by_privacy_policys";
-
   static const String updateProfile = "/api/v1/auth/update_my_profile";
   static const String myProfile = "/api/v1/auth/myprofile";
+
   static const String refreshToken = "/api/v1/auth/refresh-token";
   static const String helpSupport = "/api/v1/help_support/recorded_help_support";
   static const String changePassword = "/api/v1/user/change_password";

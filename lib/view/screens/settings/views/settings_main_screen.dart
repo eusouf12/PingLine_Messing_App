@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.to(() => const HomeScreen()),
+          onPressed: () => Get.to(() =>  HomeScreen()),
         ),
         title: const Text('Settings'),
         centerTitle: true,
@@ -102,7 +102,7 @@ class SettingsScreen extends StatelessWidget {
                   subtitle: 'Manage your account and devices',
                   onTap: () {
                     debugPrint('Account clicked');
-                    Get.to(() => const AccountScreen());
+                    Get.to(() =>  AccountScreen());
                   },
                 ),
                 _buildDivider(context),

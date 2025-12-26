@@ -45,7 +45,7 @@ class AppRoutes {
     GetPage(name: verifyPicCodeScreen, page: () => TwoFactorAuthScreen(), binding: BindingsBuilder(() {Get.lazyPut(() => AuthController());}),),
     GetPage(name: recoverySetupScreen, page: () => RecoveryKeySetupScreenOne(), binding: BindingsBuilder(() {Get.lazyPut(() => AuthController());}),),
     GetPage(name: finalRecoveryScreen, page: () => const FinalRecoveryScreen()),
-    GetPage(name: homeScreen, page: () => const HomeScreen()),
+    GetPage(name: homeScreen, page: () =>  HomeScreen()),
     GetPage(name: subscriptionScreen, page: () => const SubscriptionScreenOne(),),
 
   ];

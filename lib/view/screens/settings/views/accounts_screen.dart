@@ -1,242 +1,266 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:niche_line_messaging/view/components/custom_loader/custom_loader.dart';
+import 'package:niche_line_messaging/view/components/custom_royel_appbar/custom_royel_appbar.dart';
 
+import '../../../../service/api_url.dart';
+import '../../../../utils/app_const/app_const.dart';
+import '../../../components/custom_netwrok_image/custom_network_image.dart';
 import '../../authentication/views/auth_screen/login_screen/login_screen.dart';
+import '../controller/profile_controller.dart';
+
+
 
 // ==================== Account Screen - UI Only ====================
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
+  AccountScreen({super.key});
+
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileController.getUserProfile();
+    });
     return Scaffold(
       backgroundColor: const Color(0xFF0E1527),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF0E1527),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF2DD4BF)),
-          onPressed: () => Get.back(),
-        ),
-        title: const Text(
-          'Accounts',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-        ),
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: [
-          Container(
-            //============background co
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF000000), Color.fromARGB(255, 31, 41, 55)],
-                tileMode: TileMode.mirror,
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
+      appBar: CustomRoyelAppbar(leftIcon: true, titleName: "Accounts",),
+
+      body: Obx(() {
+        // ================= LOADING =================
+        if (profileController.rxRequestStatus.value == Status.loading) {
+          return  Center(child: CustomLoader());
+        }
+
+        // ================= ERROR =================
+        if (profileController.rxRequestStatus.value == Status.error) {
+          return const Center(
+            child: Text("Failed to load profile",
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        }
+
+        // ================= SUCCESS =================
+        final user = profileController.userProfileModel.value;
+
+        return Stack(
+          children: [
+            // Background
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF000000),
+                    Color.fromARGB(255, 31, 41, 55),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
               ),
             ),
-          ),
 
+            SingleChildScrollView(
+              padding: EdgeInsets.all(16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-
-          SingleChildScrollView(
-            padding: EdgeInsets.all(16.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 8.h),
-
-                // ==================== Profile Card ====================
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(24.w),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 14, 21, 39),
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.1),
-                      width: 1,
+                  // ================= Profile Card =================
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(24.w),
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 14, 21, 39),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.1),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      // Profile Image with Edit Button
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 50.r,
-                            backgroundColor: Colors.grey[700],
-                            backgroundImage: const NetworkImage(
-                              'https://i.pravatar.cc/300?img=5',
-                            ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            bottom: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                // TODO: Show image picker
-                                _showImagePickerOptions(context);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(8.w),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF2DD4BF),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.edit,
-                                  size: 16.sp,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      // Name
-                      Text(
-                        'Sarah Chen',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-
-                      SizedBox(height: 6.h),
-
-                      // Bio
-                      Text(
-                        'Hey there! I\'m using NichLine...',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: Colors.white.withOpacity(0.5),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 20.h),
-
-                // ==================== Two-Factor Authentication ====================
-                Container(
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color:  const Color.fromARGB(255, 14, 21, 39),
-                    borderRadius: BorderRadius.circular(12.r),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.1),
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
+                      children: [
+                        // Profile Image
+                        Stack(
                           children: [
-                            Text(
-                              'Two-Factor Authentication',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                            ClipOval(
+                              child: CustomNetworkImage(
+                                imageUrl:user.photo.isNotEmpty
+                                 ?  "${ApiUrl.baseUrl}/${user.photo}"
+                                :AppConstants.profileImage,
+                                height: 80.h,
+                                width: 80.w,
+                                boxShape: BoxShape.circle,
                               ),
                             ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              'Add extra protection for login',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: Colors.white.withOpacity(0.5),
+
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: GestureDetector(
+                                onTap: () =>
+                                    _showImagePickerOptions(context),
+                                child: Container(
+                                  padding: EdgeInsets.all(8.w),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFF2DD4BF),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 16.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Icon(
-                        Icons.chevron_right,
-                        color: Colors.white.withOpacity(0.3),
-                        size: 24.sp,
-                      ),
-                    ],
-                  ),
-                ),
 
-                SizedBox(height: 20.h),
+                        SizedBox(height: 16.h),
 
-                // ==================== Linked Devices Section ====================
-                Text(
-                  'Linked Devices',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
+                        /// Name
+                        Text(
+                          user.name,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
 
-                SizedBox(height: 12.h),
+                        SizedBox(height: 6.h),
 
-                // Device 1 - iPhone 15 Pro
-                _buildDeviceCard(
-                  deviceName: 'iPhone 15 Pro',
-                  lastActive: 'Last active: Oct 12, 2025, 03:23 PM',
-                  onMenuTap: () {
-                    _showDeviceOptions(context, 'iPhone 15 Pro');
-                  },
-                ),
-
-                SizedBox(height: 12.h),
-
-                // Device 2 - Samsung Galaxy A56
-                _buildDeviceCard(
-                  deviceName: 'Samsung Galaxy A56',
-                  lastActive: 'Last active: Oct 12, 2025, 09:23 PM',
-                  onMenuTap: () {
-                    _showDeviceOptions(context, 'Samsung Galaxy A56');
-                  },
-                ),
-
-                SizedBox(height: 24.h),
-
-                // ==================== Log Out Button ====================
-                SizedBox(
-                  width: double.infinity,
-                  height: 50.h,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      _showLogoutConfirmation(context);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      side: const BorderSide(color: Colors.red, width: 1.5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    ),
-                    child: Text(
-                      'Log Out',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                        /// Email
+                        Text(
+                          user.email,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
 
-                SizedBox(height: 40.h),
-              ],
+                  SizedBox(height: 20.h),
+
+                  /// ================= Two Factor =================
+                  Container(
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color:
+                      const Color.fromARGB(255, 14, 21, 39),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.1),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Two-Factor Authentication',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Text(
+                                'Add extra protection for login',
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: Colors.white
+                                      .withOpacity(0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          color:
+                          Colors.white.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20.h),
+
+                  /// ================= Linked Devices =================
+                  Text(
+                    'Linked Devices',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  _buildDeviceCard(
+                    deviceName: 'iPhone 15 Pro',
+                    lastActive:
+                    'Last active: Oct 12, 2025, 03:23 PM',
+                    onMenuTap: () =>
+                        _showDeviceOptions(context, 'iPhone 15 Pro'),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  _buildDeviceCard(
+                    deviceName: 'Samsung Galaxy A56',
+                    lastActive:
+                    'Last active: Oct 12, 2025, 09:23 PM',
+                    onMenuTap: () => _showDeviceOptions(
+                        context, 'Samsung Galaxy A56'),
+                  ),
+
+                  SizedBox(height: 24.h),
+
+                  /// ================= Logout =================
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50.h,
+                    child: OutlinedButton(
+                      onPressed: () =>
+                          _showLogoutConfirmation(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.red,
+                        side: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 40.h),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 

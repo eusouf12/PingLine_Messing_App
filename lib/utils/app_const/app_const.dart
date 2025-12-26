@@ -2,9 +2,13 @@ class AppConstants {
   static String bearerToken = "BearerToken";
   static String refreshToken = "RefreshToken";
   static String userId = "UserId";
+  static String userName = "UserName";
   static String role = "role";
   static String conversationId = "ConversationId";
   static String onBoard = "Onboard";
+  static String name = "name";
+  static String email = "email";
+  static String photo = "photo";
 
   /// <====================== All Response Message Static==============================>
 
@@ -29,10 +33,10 @@ class AppConstants {
 
   static const String politicalMove = 'https://images.unsplash.com/photo-1569000971870-7605f9bd8734?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHBvbGl0aWNhbCUyMHN0YXRlbWVudHxlbnwwfHwwfHx8MA%3D%3D';
 
-  static String profileImage = 'https://ntvb.tmsimg.com/assets/assets/866126_v9_bc.jpg';
+  static String profileImage2 = 'https://ntvb.tmsimg.com/assets/assets/866126_v9_bc.jpg';
+  static String profileImage = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
   static String bdFlag = 'https://flagcdn.com/w320/bd.png';
   static String pkFlag = 'https://flagcdn.com/w320/pk.png';
-  static String dog = 'https://plus.unsplash.com/premium_photo-1694819488591-a43907d1c5cc?q=80&w=1314&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
   static String resturentImage = 'https://images.pexels.com/photos/941861/pexels-photo-941861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
   static String banner = 'https://www.conwaymedicalcenter.com/wp-content/uploads/2020/12/ten-reasons-you-must-have-a-primary-care-doctor.jpg';
 }

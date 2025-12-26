@@ -8,13 +8,16 @@ import 'package:niche_line_messaging/view/screens/home/controller/chatlist_contr
 import 'package:niche_line_messaging/view/screens/home/model/chat_model.dart';
 import 'package:niche_line_messaging/view/screens/home/views/create_group_chat_screen.dart';
 import 'package:niche_line_messaging/view/screens/home/views/new_chat_screen.dart';
+import 'package:niche_line_messaging/view/screens/settings/controller/profile_controller.dart';
 import 'package:niche_line_messaging/view/screens/settings/views/settings_main_screen.dart';
+
+import '../../../../service/api_url.dart';
 
 final controller = Get.put(ChatListController());
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
+   HomeScreen({super.key});
+   final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,21 +75,20 @@ class HomeScreen extends StatelessWidget {
   //================== Widget Property ====================
 
   Widget _buildCustomAppBar(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileController.getUserProfile();
+    });
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              CustomImage(
+          CustomImage(
                 imageSrc: AppImages.splashScreenImage,
                 height: 35.h,
                 width: 35.h,
               ),
-              SizedBox(width: 10.w),
-            ],
-          ),
+          SizedBox(width: 10.w),
           GestureDetector(
             onTap: () => Get.to(() => const SettingsScreen()),
             child: Container(
@@ -97,8 +99,12 @@ class HomeScreen extends StatelessWidget {
               ),
               child: CircleAvatar(
                 radius: 18.r,
-                backgroundImage: const NetworkImage(
-                  'https://i.pravatar.cc/150?img=5',
+                backgroundImage:  NetworkImage(
+                  "${
+                  ApiUrl.baseUrl +
+                      "/" +
+                      profileController.userProfileModel.value.photo
+                }"
                 ),
               ),
             ),
