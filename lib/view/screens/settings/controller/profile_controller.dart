@@ -43,7 +43,6 @@ class ProfileController extends GetxController {
 
     ever<File?>(selectedImage, (file) {
       if (file != null) {
-        debugPrint("🔥 ever() triggered");
         debugPrint("Selected Image Path: ${file.path}");
 
         updateProfile();
@@ -198,6 +197,7 @@ class ProfileController extends GetxController {
 //========== getUserProfile controller ==========
   final rxRequestStatus = Status.loading.obs;
   void setRequestStatus(Status status) => rxRequestStatus.value = status;
+  final RxBool isProfileLoading = true.obs;
 
   Rx<UserProfileModel> userProfileModel = UserProfileModel(
       id: '', name: '', email: '', phoneNumber: '', dateOfBirth: '', photo: '', country: ''
@@ -205,11 +205,12 @@ class ProfileController extends GetxController {
   ).obs;
 
   Future<void> getUserProfile() async {
-    final userId = await SharePrefsHelper.getString(AppConstants.userId);
+    isProfileLoading.value = true ;
 
     var response = await ApiClient.getData(ApiUrl.myProfile);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      isProfileLoading.value = false ;
       try {
         var data = response.body['data'];
         userProfileModel.value = UserProfileModel.fromJson(data);
@@ -234,7 +235,9 @@ class ProfileController extends GetxController {
         setRequestStatus(Status.error);
         debugPrint("Parsing error: $e");
       }
-    } else {
+    }
+    else {
+      isProfileLoading.value = false ;
       setRequestStatus(Status.error);
       Get.snackbar("Error", "Failed to load user profile.");
     }

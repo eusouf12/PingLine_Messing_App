@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:niche_line_messaging/utils/app_colors/app_colors.dart';
 import 'package:niche_line_messaging/utils/app_images/app_images.dart';
 import 'package:niche_line_messaging/view/components/custom_image/custom_image.dart';
+import 'package:niche_line_messaging/view/components/custom_loader/custom_loader.dart';
 import 'package:niche_line_messaging/view/components/custom_text/custom_text.dart';
 import 'package:niche_line_messaging/view/screens/home/controller/chatlist_controller.dart';
 import 'package:niche_line_messaging/view/screens/home/model/chat_model.dart';
@@ -25,37 +27,42 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF0E1527),
       body: SafeArea(
-        child: Column(
-          children: [
-            // ================== Custom App Bar ==================
-            _buildCustomAppBar(context),
-            SizedBox(height: 20.h),
-            // ================== Search & Filter ==================
-            _buildSearchField(context),
-            SizedBox(height: 10.h),
-            // ================== Chat List ==================
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.02),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.r),
-                    topRight: Radius.circular(30.r),
+        child:Obx((){
+          if (profileController.isProfileLoading.value){
+             Center(child:CustomLoader(),);
+          }
+          return Column(
+            children: [
+              // ================== Custom App Bar ==================
+              _buildCustomAppBar(context),
+              SizedBox(height: 20.h),
+              // ================== Search & Filter ==================
+              _buildSearchField(context),
+              SizedBox(height: 10.h),
+              // ================== Chat List ==================
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.02),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.r),
+                      topRight: Radius.circular(30.r),
+                    ),
                   ),
+                  child: Obx(() {
+                    if (controller.isLoading.value) {
+                      return _buildLoadingState(context);
+                    }
+                    if (controller.filteredChats.isEmpty) {
+                      return _buildEmptyState(context);
+                    }
+                    return _buildChatList(context);
+                  }),
                 ),
-                child: Obx(() {
-                  if (controller.isLoading.value) {
-                    return _buildLoadingState(context);
-                  }
-                  if (controller.filteredChats.isEmpty) {
-                    return _buildEmptyState(context);
-                  }
-                  return _buildChatList(context);
-                }),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        })
       ),
       // Floating button for direct New Chat
       floatingActionButton: FloatingActionButton(
@@ -81,6 +88,7 @@ class HomeScreen extends StatelessWidget {
       profileController.getUserProfile();
     });
     final user = profileController.userProfileModel.value;
+    debugPrint("======${ApiUrl.baseUrl}/${user.photo}");
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Row(
@@ -296,7 +304,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildLoadingState(BuildContext context) =>
-      const Center(child: CircularProgressIndicator(color: Color(0xFF2DD4BF)));
+       Center(child: CustomLoader());
 
   Widget _buildEmptyState(BuildContext context) => Center(
     child: Column(
