@@ -12,6 +12,8 @@ import 'package:niche_line_messaging/view/screens/settings/controller/profile_co
 import 'package:niche_line_messaging/view/screens/settings/views/settings_main_screen.dart';
 
 import '../../../../service/api_url.dart';
+import '../../../../utils/app_const/app_const.dart';
+import '../../../components/custom_netwrok_image/custom_network_image.dart';
 
 final controller = Get.put(ChatListController());
 
@@ -78,6 +80,7 @@ class HomeScreen extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       profileController.getUserProfile();
     });
+    final user = profileController.userProfileModel.value;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Row(
@@ -97,14 +100,15 @@ class HomeScreen extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: const Color(0xFF2DD4BF), width: 1.5),
               ),
-              child: CircleAvatar(
-                radius: 18.r,
-                backgroundImage:  NetworkImage(
-                  "${
-                  ApiUrl.baseUrl +
-                      "/" +
-                      profileController.userProfileModel.value.photo
-                }"
+              child:
+              ClipOval(
+                child: CustomNetworkImage(
+                  imageUrl:user.photo.isNotEmpty
+                      ?  "${ApiUrl.baseUrl}/${user.photo}"
+                      :AppConstants.profileImage,
+                  height: 45.h,
+                  width: 45.w,
+                  boxShape: BoxShape.circle,
                 ),
               ),
             ),

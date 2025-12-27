@@ -221,9 +221,16 @@ class LoginScreen extends StatelessWidget {
                    CustomText(text: "By continuing, you agree to NichLine's "),
                    GestureDetector(
                        onTap: (){
+                         Get.toNamed(AppRoutes.termsServicesScreen);
+                       },
+                       child: CustomText(text: "Terms ",color: AppColors.lightGreen)
+                   ),
+                   CustomText(text: "and "),
+                   GestureDetector(
+                       onTap: (){
                          Get.toNamed(AppRoutes.privacyScreen);
                        },
-                       child: CustomText(text: "Privacy Policy",color: AppColors.lightGreen)
+                       child: CustomText(text: " Privacy Policy",color: AppColors.lightGreen)
                    ),
                  ],
                )

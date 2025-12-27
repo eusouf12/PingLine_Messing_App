@@ -1,12 +1,13 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:niche_line_messaging/core/app_routes/app_routes.dart';
 import 'package:niche_line_messaging/view/screens/home/views/home_screen.dart';
 import 'package:niche_line_messaging/view/screens/settings/views/about_screen.dart';
 import 'package:niche_line_messaging/view/screens/settings/views/accounts_screen.dart';
 import 'package:niche_line_messaging/view/screens/settings/views/apperance_screen.dart';
 import 'package:niche_line_messaging/view/screens/settings/views/notification_screen.dart';
-import 'package:niche_line_messaging/view/screens/settings/views/privacy_security_screen.dart';
+import 'package:niche_line_messaging/view/screens/settings/views/privacy_screen.dart';
 import 'package:niche_line_messaging/view/screens/settings/views/secure_folder_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -114,7 +115,7 @@ class SettingsScreen extends StatelessWidget {
                   onTap: () {
                     debugPrint('Privacy & Security clicked');
 
-                    Get.to(() => PrivacyScreen());
+                    Get.toNamed(AppRoutes.privacySecurityScreen);
                   },
                 ),
                 _buildDivider(context),

@@ -11,6 +11,7 @@ import '../../view/screens/authentication/views/auth_screen/forgot_screen/forgot
 import '../../view/screens/authentication/views/auth_screen/login_screen/login_screen.dart';
 import '../../view/screens/authentication/views/auth_screen/set_new_password/set_new_password.dart';
 import '../../view/screens/authentication/views/auth_screen/sign_up_screen/sign_up_screen.dart';
+import '../../view/screens/settings/views/privacy_screen.dart';
 import '../../view/screens/settings/views/privacy_security_screen.dart';
 import '../../view/screens/settings/views/terms_services_screen‎.dart';
 
@@ -29,6 +30,7 @@ class AppRoutes {
   static const String settingScreen = "/SettingScreen";
   static const String forgotScreen = "/ForgotScreen";
   static const String privacyScreen = "/PrivacyScreen";
+  static const String privacySecurityScreen = "/PrivacySecurityScreen";
   static const String termsServicesScreen = "/TermsServicesScreen";
   static const String setNewPassword = "/SetNewPassword";
 
@@ -40,6 +42,7 @@ class AppRoutes {
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
     GetPage(name: forgotScreen, page: () => ForgotScreen()),
     GetPage(name: privacyScreen, page: () => PrivacyScreen()),
+    GetPage(name: privacySecurityScreen, page: () => PrivacySecurityScreen()),
     GetPage(name: termsServicesScreen, page: () => TermsServicesScreen()),
     GetPage(name: setNewPassword, page: () => SetNewPassword()),
     GetPage(name: verifyPicCodeScreen, page: () => TwoFactorAuthScreen(), binding: BindingsBuilder(() {Get.lazyPut(() => AuthController());}),),

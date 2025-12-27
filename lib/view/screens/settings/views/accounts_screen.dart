@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:niche_line_messaging/view/components/custom_loader/custom_loader.dart';
 import 'package:niche_line_messaging/view/components/custom_royel_appbar/custom_royel_appbar.dart';
 
@@ -44,7 +45,7 @@ class AccountScreen extends StatelessWidget {
 
         // ================= SUCCESS =================
         final user = profileController.userProfileModel.value;
-
+          debugPrint("user.photo===== ${ApiUrl.baseUrl}/${user.photo}");
         return Stack(
           children: [
             // Background
@@ -345,13 +346,8 @@ class AccountScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Change Profile Picture',
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
+            Text('Change Profile Picture',
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: Colors.white,),
             ),
             SizedBox(height: 20.h),
             ListTile(
@@ -364,7 +360,7 @@ class AccountScreen extends StatelessWidget {
                 Get.back();
                 debugPrint('Camera selected');
                 // TODO: Open camera
-                // ImagePicker().pickImage(source: ImageSource.camera);
+                 ImagePicker().pickImage(source: ImageSource.camera);
               },
             ),
             ListTile(
@@ -377,10 +373,11 @@ class AccountScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
-                Get.back();
+                profileController.pickImageFromGallery();
                 debugPrint('Gallery selected');
+                Get.back();
                 // TODO: Open gallery
-                // ImagePicker().pickImage(source: ImageSource.gallery);
+
               },
             ),
             ListTile(

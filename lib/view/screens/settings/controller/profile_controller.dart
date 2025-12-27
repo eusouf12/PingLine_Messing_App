@@ -25,6 +25,7 @@ class ProfileController extends GetxController {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       selectedImage.value = File(image.path);
+      debugPrint("Gallery Image Path: ${image.path}");
     }
   }
 
@@ -35,6 +36,22 @@ class ProfileController extends GetxController {
       selectedImage.value = File(image.path);
     }
   }
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    ever<File?>(selectedImage, (file) {
+      if (file != null) {
+        debugPrint("🔥 ever() triggered");
+        debugPrint("Selected Image Path: ${file.path}");
+
+        updateProfile();
+      }
+    });
+  }
+
+
 
   /// push Notification
 
@@ -64,10 +81,8 @@ class ProfileController extends GetxController {
 
     try {
       Map<String, String> body = {
-        "name": nameController.value.text.trim(),
-        "phoneNumber": phoneNumberController.value.text.trim(),
-        "dateOfBirth": dateOfBirthController.value.text,
-        "country": countryController.value.text,
+        "name": userProfileModel.value.name,
+        "email": userProfileModel.value.email,
       };
 
       dynamic response;
@@ -93,8 +108,8 @@ class ProfileController extends GetxController {
           jsonResponse['message']?.toString() ?? "Profile updated successfully!",
           isError: false,
         );
-
-        String? userRole = await SharePrefsHelper.getString(AppConstants.role);
+        getUserProfile();
+        // String? userRole = await SharePrefsHelper.getString(AppConstants.role);
         resetPasswordFields();
         // Get.offAllNamed(AppRoutes.profileScreen);
       } else {
@@ -205,13 +220,13 @@ class ProfileController extends GetxController {
         if (countryController.value.text.isEmpty) {
           countryController.value.text = userProfileModel.value.country;
         }
-        emailController.value.text = userProfileModel.value.email;
-        if (phoneNumberController.value.text.isEmpty) {
-          phoneNumberController.value.text = userProfileModel.value.phoneNumber;
-        }
-        if (dateOfBirthController.value.text.isEmpty) {
-          dateOfBirthController.value.text = userProfileModel.value.dateOfBirth;
-        }
+        // emailController.value.text = userProfileModel.value.email;
+        // if (phoneNumberController.value.text.isEmpty) {
+        //   phoneNumberController.value.text = userProfileModel.value.phoneNumber;
+        // }
+        // if (dateOfBirthController.value.text.isEmpty) {
+        //   dateOfBirthController.value.text = userProfileModel.value.dateOfBirth;
+        // }
 
         setRequestStatus(Status.completed);
         update();
