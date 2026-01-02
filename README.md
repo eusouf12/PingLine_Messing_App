@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+
 # ping_line_messing_app
-=======
-# pingline_messing_app
->>>>>>> 3065aaba173621d3128fad1b89e7458a4241e82f
 
 A new Flutter project.
 
